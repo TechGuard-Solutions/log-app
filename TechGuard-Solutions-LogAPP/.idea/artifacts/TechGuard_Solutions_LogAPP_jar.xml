@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TechGuard-Solutions-LogAPP:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TechGuard_Solutions_LogAPP_jar</output-path>
+    <root id="archive" name="TechGuard-Solutions-LogAPP.jar">
+      <element id="module-output" name="TechGuard-Solutions-LogAPP" />
+    </root>
+  </artifact>
+</component>
