@@ -4,25 +4,34 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 public class Main implements ActionListener {
 
-    int counts = 0;
     JButton button;
-    JLabel label;
-    JLabel label2;
+    JTextArea textArea;
     JPanel panel;
     Font fonteTamanhoNovo;
+    JLabel titulo;
 
     public Main() {
 
+        fonteTamanhoNovo = new Font("Arial Black", Font.BOLD, 40);
+
         JFrame frame = new JFrame();
-        Font fonteTamanhoNovo = new Font("Arial Black", Font.BOLD, 24);
         button = new JButton("Clique para iniciar");
-        label = new JLabel("Numero de cliques: " + counts);
-        label2 = new JLabel("teste");
+        textArea = new JTextArea();
         panel = new JPanel();
+        titulo = new JLabel();
+
+        titulo.setText("TechGuard Solutions");
+        titulo.setForeground(Color.green);
+        titulo.setFont(fonteTamanhoNovo);
 
         button.addActionListener(this); // ativa o ActionListener, quando clicar no botao alguma coisa acontece
         button.setPreferredSize(new Dimension(190, 110)); // "tamanho do botao" nao deu muito certo
@@ -32,16 +41,16 @@ public class Main implements ActionListener {
         button.setFocusPainted(false); // tira a bordinha do texto do botao
 
         // deixando invisivel
-        label.setVisible(false);
-        label2.setVisible(false);
+        textArea.setVisible(false);
 
         panel.setBorder(BorderFactory.createEmptyBorder(100, 130, 10, 130)); // adicionando margins na tela
         panel.setLayout(new GridLayout(0, 1)); // tipo flex box
 
         // adicionando botoes e textos na tela
+
+        panel.add(titulo);
         panel.add(button);
-        panel.add(label);
-        panel.add(label2);
+        panel.add(textArea);
 
         panel.setBackground(Color.black); // background preto
 
@@ -50,7 +59,7 @@ public class Main implements ActionListener {
         frame.setTitle("Our GUI"); // titulo da pagina
         frame.pack();
         frame.setVisible(true); // faz com que seja visivel
-        frame.setSize(600, 600); // tamanho da tela
+        frame.setSize(800, 900); // tamanho da tela
 
     }
 
@@ -61,116 +70,113 @@ public class Main implements ActionListener {
     public static void main(String[] args) {
 
         new Main();
-//        formatada = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-//        tempo = 0;
-//        tempoMs = 0;
-//
-//        String[] logs = {
-//                "Iniciando Aplicação",
-//                "Carregando configurações",
-//                "Validando configurações",
-//                "Conectando ao banco de dados...",
-//                "Banco de dados conectado",
-//                "\nIniciando processo da coleta de dados \nConsultando tabela de usuários",
-//                "Usuários carregados com sucesso",
-//                "\nConsultando tabela de bases \nBases carregados com sucesso",
-//                "\nConsultando tabela de análises \nAnálises carregadas com sucesso",
-//                "Processo da coleta de dados finalizado",
-//                "\nIniciando análise dos dados \nAnalisando dados de usuários \nAnalisando dados de bases",
-//                "Analisando dados consolidados",
-//                "\nAlimentando Dashboard \nGeração de relatórios iniciada",
-//                "\nRelatórios gerados com sucesso \nEnviando relatórios para o servidor \nRelatórios enviados",
-//                "Iniciando processo de backup",
-//                "Backup realizado com sucesso",
-//                "Finalizando processos secundários",
-//                "Finalizando Aplicação"
-//        };
-//
-//
-//        for (String log : logs) {
-//            tempo = ThreadLocalRandom.current().nextInt(1, 4);
-//            tempoMs = tempo * 1000;
-//
-//            LocalDateTime now = LocalDateTime.now();
-//            String formatadaNow = now.format(formatada);
-//
-//            System.out.println(formatadaNow + " - " + log);
-//
-//            try {
-//                Thread.sleep(tempoMs);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        formatada = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        tempo = 0;
+        tempoMs = 0;
+
+        List<String> logs = new ArrayList<>();
+        logs.add("Iniciando Aplicação");
+        logs.add("Carregando configurações");
+        logs.add("Validando configurações");
+        logs.add("Conectando ao banco de dados...");
+        logs.add("Banco de dados conectado");
+        logs.add("\nIniciando processo da coleta de dados \nConsultando tabela de usuários");
+        logs.add("Usuários carregados com sucesso");
+        logs.add("\nConsultando tabela de bases \nBases carregadas com sucesso");
+        logs.add("\nConsultando tabela de análises \nAnálises carregadas com sucesso");
+        logs.add("Processo da coleta de dados finalizado");
+        logs.add("\nIniciando análise dos dados \nAnalisando dados de usuários \nAnalisando dados de bases");
+        logs.add("Analisando dados consolidados");
+        logs.add("\nAlimentando Dashboard \nGeração de relatórios iniciada");
+        logs.add("\nRelatórios gerados com sucesso \nEnviando relatórios para o servidor \nRelatórios enviados");
+        logs.add("Iniciando processo de backup");
+        logs.add("Backup realizado com sucesso");
+        logs.add("Finalizando processos secundários");
+        logs.add("Finalizando Aplicação");
+
+
+        for (String log : logs) {
+            tempo = ThreadLocalRandom.current().nextInt(1, 4);
+            tempoMs = tempo * 1000;
+
+            LocalDateTime now = LocalDateTime.now();
+            String formatadaNow = now.format(formatada);
+
+            System.out.println("-=-=-=-=-=-=-=-=-=-=-\n"+formatadaNow + " - " + log + "\n"+"-=-=-=-=-=-=-=-=-=-=-\n");
+
+            try {
+                Thread.sleep(tempoMs);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override // sobrescreve uma coisa ja existe
     public void actionPerformed(ActionEvent e) { // quando clica no botão, vem para cá
-        button.setVisible(false);
+        panel.remove(button);
+        panel.remove(titulo);
 
         fonteTamanhoNovo = new Font("Arial Black", Font.BOLD, 18);
 
-        label.setVisible(true);
-        label.setForeground(Color.white);
-        label.setFont(fonteTamanhoNovo);
+        textArea.setVisible(true);
+        textArea.setForeground(Color.white);
+        textArea.setFont(fonteTamanhoNovo);
+        textArea.setRows(17);
+        textArea.setBackground(Color.black);
+        textArea.setSize(600, 850);
+
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         formatada = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
-        panel.setLayout(new GridLayout(10, 1));
-        panel.setBorder(BorderFactory.createEmptyBorder(60, 20, 10, 20));
+        panel.add(scrollPane);
+        panel.setLayout(new BorderLayout());
+        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        String[] logs = {
-                "",
-                "Iniciando Aplicação",
-                "Carregando configurações",
-                "Validando configurações",
-                "Conectando ao banco de dados...",
-                "Banco de dados conectado",
-                "\nIniciando processo da coleta de dados \nConsultando tabela de usuários",
-                "Usuários carregados com sucesso",
-                "\nConsultando tabela de bases \nBases carregadas com sucesso",
-                "\nConsultando tabela de análises \nAnálises carregadas com sucesso",
-                "Processo da coleta de dados finalizado",
-                "\nIniciando análise dos dados \nAnalisando dados de usuários \nAnalisando dados de bases",
-                "Analisando dados consolidados",
-                "\nAlimentando Dashboard \nGeração de relatórios iniciada",
-                "\nRelatórios gerados com sucesso \nEnviando relatórios para o servidor \nRelatórios enviados",
-                "Iniciando processo de backup",
-                "Backup realizado com sucesso",
-                "Finalizando processos secundários",
-                "Finalizando Aplicação"
-        };
+        List<String> logs = new ArrayList<>();
+        logs.add("Iniciando Aplicação");
+        logs.add("Carregando configurações");
+        logs.add("Validando configurações");
+        logs.add("Conectando ao banco de dados...");
+        logs.add("Banco de dados conectado");
+        logs.add("\nIniciando processo da coleta de dados \nConsultando tabela de usuários");
+        logs.add("Usuários carregados com sucesso");
+        logs.add("\nConsultando tabela de bases \nBases carregadas com sucesso");
+        logs.add("\nConsultando tabela de análises \nAnálises carregadas com sucesso");
+        logs.add("Processo da coleta de dados finalizado");
+        logs.add("\nIniciando análise dos dados \nAnalisando dados de usuários \nAnalisando dados de bases");
+        logs.add("Analisando dados consolidados");
+        logs.add("\nAlimentando Dashboard \nGeração de relatórios iniciada");
+        logs.add("\nRelatórios gerados com sucesso \nEnviando relatórios para o servidor \nRelatórios enviados");
+        logs.add("Iniciando processo de backup");
+        logs.add("Backup realizado com sucesso");
+        logs.add("Finalizando processos secundários");
+        logs.add("Finalizando Aplicação");
 
-        Timer timer = new Timer(0, null); // Inicialmente sem delay
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); // Cria um scheduler para tarefas assíncronas
+        int[] index = {0}; // Índice inicial para iterar os logs
 
-        ActionListener taskPerformer = new ActionListener() {
-            int index = 0;
+// Agendar uma tarefa que será executada a cada intervalo
+        scheduler.scheduleAtFixedRate(() -> {
+            if (index[0] < logs.size()) {
+                // Obtém o horário atual e formata a string
+                LocalDateTime now = LocalDateTime.now();
+                String formatadaNow = now.format(formatada);
 
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                if (index < logs.length) {
-                    // Atualiza o label com o próximo log
-                    LocalDateTime now = LocalDateTime.now();
-                    String formatadaNow = now.format(formatada);
-                    String t = formatadaNow + " - " + logs[index];
-                    label.setText(t);
-//                    System.out.println(t);
-                    // Determina um tempo de atraso aleatório
-                    tempo = ThreadLocalRandom.current().nextInt(1, 4);
-                    tempoMs = tempo * 1000;
-                    timer.setDelay(tempoMs); // Configura o delay do próximo log
+                // Atualiza o JTextArea com o próximo log
+                textArea.append("-=-=-=-=-=-=-=-=-=-=-\n"+formatadaNow + " - " + logs.get(index[0]) + "\n"+"-=-=-=-=-=-=-=-=-=-=-\n");
 
-                    index++;
-                } else {
-                    timer.stop(); // Para o timer quando todos os logs forem processados
-                }
+                // Avança o índice para o próximo log
+                index[0]++;
+            } else {
+                // Para o scheduler quando todos os logs forem exibidos
+                scheduler.shutdown();
             }
-        };
-
-        timer.addActionListener(taskPerformer);
-        timer.setInitialDelay(0); // Nenhum atraso inicial
-        timer.start(); // Inicia o timer
-    }
+        }, 0, 3, TimeUnit.SECONDS); // Executa inicialmente sem delay, e depois a cada 3 segundos
+   }
 }
 
 
