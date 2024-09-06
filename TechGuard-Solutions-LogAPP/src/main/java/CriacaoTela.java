@@ -12,7 +12,7 @@ public class CriacaoTela {
     Main main = new Main();
 
     void tela() {
-        fonteTamanhoNovo = new Font("Arial Black", Font.BOLD, 40);
+        fonteTamanhoNovo = new Font("Arial Black", Font.CENTER_BASELINE, 40);
         JFrame frame = new JFrame();
 
         button = new JButton("Clique para iniciar");
